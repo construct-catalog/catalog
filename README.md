@@ -16,6 +16,8 @@ At the moment, you can simply use Twitter to search the catalog. Simply include 
 
 It is recommended to read the post [Writing Constructs](https://www.matthewbonig.com/2020/01/11/creating-constructs) by Matthew Bonig. It includes instructions and an end-to-end sample, and also discuss publishing to @awscdkio.
 
+We also recommend using [projen](https://github.com/eladb/projen) to manage your project configuration. It has built-in jsii support.
+
 The Construct Catalog will automatically discover jsii multi-language modules published to npm with the `cdk` keyword:
 
 1. Follow the instructions in [jsii/README](https://github.com/aws/jsii) on how to create a jsii module.
@@ -31,6 +33,7 @@ The Construct Catalog will automatically discover jsii multi-language modules pu
     - `announce` (boolean): indicates if a tweet should be posted when new versions of this module are published (default is `true`).
 
 4. Publish your module to all package managers. Here are some recommended tools:
+   - [projen](https://github.com/eladb/projen)
    - [jsii publish GitHub Action](https://github.com/marketplace/actions/jsii-publish) by [udondan](https://github.com/udondan)
    - [jsii-release](https://github.com/eladb/jsii-release)
    - [aws-delivlib](https://github.com/awslabs/aws-delivlib) used by the AWS CDK
