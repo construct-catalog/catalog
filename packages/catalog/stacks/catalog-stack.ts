@@ -8,8 +8,15 @@ import { Monitoring } from '../lib/monitoring';
 import { HostedZone } from 'monocdk-experiment/aws-route53';
 import * as sns from 'monocdk-experiment/aws-sns';
 import * as dynamodb from 'monocdk-experiment/aws-dynamodb';
+import { AccountPrincipal, PolicyStatement } from "monocdk-experiment/aws-iam";
 
 export interface CatalogStackProps extends StackProps {
+
+  /**
+   * Optional AWS Account ID's that are given subscription rights to the Renderer SQS topic.
+   */
+  readonly externalAccountSubscribers?: string[];
+
   /**
    * Domain name.
    */
@@ -52,6 +59,17 @@ export class CatalogStack extends Stack {
       input: ingestion.topic,
       website
     });
+
+
+    if (props.externalAccountSubscribers) {
+      renderer.topic.addToResourcePolicy(new PolicyStatement({
+        resources: [renderer.topic.topicArn],
+        actions: [
+          "sns:Subscribe",
+        ],
+        principals: props.externalAccountSubscribers.map((account: string) => new AccountPrincipal(account))
+      }));
+  }
 
     const twitterCredentials = props.twitterSecretArn
       ? secrets.Secret.fromSecretArn(this, 'twitter', props.twitterSecretArn)
