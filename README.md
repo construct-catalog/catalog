@@ -19,11 +19,7 @@ The Construct Catalog will automatically discover jsii multi-language modules pu
 1. Create a new jsii project, we recommend [projen](https://github.com/eladb/projen):
 
 ```shell
-npx projen new jsii 
-  --name="MY-MODULE"
-  --author-name="MY-NAME"
-  --author-email="MY-EMAIL"
-  --repository="https://..."
+$ npx projen new jsii
 ```
 
 2. Edit your `.projenrc.js` file and add language specific configuration. See [watchful](https://github.com/eladb/cdk-watchful/blob/master/.projenrc.js) as an example.
@@ -33,7 +29,7 @@ npx projen new jsii
     - `twitter` (string): a Twitter handle (with or without the '@'). This handle will be
       "@mentioned" when the catalog tweets about new versions (see this
       [package.json](https://github.com/eladb/cdk-watchful/blob/master/package.json#L5)
-      as an example).
+      as an example). **THIS FEATURE IS TEMPORARILY DISABLED DUE TO TWITTER POLICY :(**
     - `announce` (boolean): indicates if a tweet should be posted when new versions of this module are published (default is `true`).
 
 4. Publish your module to all package managers. Here are some recommended tools:
@@ -51,7 +47,7 @@ npx projen new jsii
   "jsii": { ... }          // jsii config (required)
   "keywords": [ "cdk" ],   // required
   "awscdkio": {            // all optional
-    "twitter": "@account", // @mention in announcement
+    "twitter": "@account", // @mention in announcement (TEMPORARILY DISABLED)
     "announce": true       // this is the default
   }
 }

@@ -75,12 +75,18 @@ export async function handler(event: AWSLambda.SQSEvent, context: AWSLambda.Cont
     const hashtags = (pkg.metadata.keywords || []).map(k => `#${k.replace(/-/g, '_')}`).join(' ');
     const title = `${pkg.name.replace(/@/g, '')} ${pkg.version}`;
 
-    // extract twitter handle from package.json/awscdkio.twitter field (if exists)
-    let twitterHandle = awscdkio.twitter;
-    if (twitterHandle && !twitterHandle.startsWith('@')) {
-      twitterHandle = '@' + twitterHandle;
-    }
-    const author = twitterHandle ? ` by ${twitterHandle}` : '';
+    // --------------------------------------------------------------------------
+    // DISABLED since unsolicited @mentions violate the twitter policy:
+    // https://help.twitter.com/en/rules-and-policies/twitter-automation
+    // --------------------------------------------------------------------------
+    // // extract twitter handle from package.json/awscdkio.twitter field (if exists)
+    // let twitterHandle = awscdkio.twitter;
+    // if (twitterHandle && !twitterHandle.startsWith('@')) {
+    //   twitterHandle = '@' + twitterHandle;
+    // }
+    // const author = twitterHandle ? ` by ${twitterHandle}` : '';
+    // --------------------------------------------------------------------------
+    const author = '';
 
     const status = [
       title + author,
