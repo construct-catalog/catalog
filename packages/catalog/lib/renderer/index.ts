@@ -32,6 +32,8 @@ export class Renderer extends Construct {
    */
   public readonly logGroup: string;
 
+  public readonly table: dynamo.Table;
+
   constructor(parent: Construct, id: string, props: RendererProps) {
     super(parent, id);
 
@@ -43,7 +45,7 @@ export class Renderer extends Construct {
 
     props.input.addSubscription(new subscriptions.SqsSubscription(queue));
 
-    const table = new dynamo.Table(this, 'Table', {
+    this.table = new dynamo.Table(this, 'Table', {
       partitionKey: { type: dynamo.AttributeType.STRING, name: PackageTableAttributes.NAME, },
       sortKey: { type: dynamo.AttributeType.STRING, name: PackageTableAttributes.VERSION, },
       stream: dynamo.StreamViewType.NEW_AND_OLD_IMAGES,
@@ -60,16 +62,16 @@ export class Renderer extends Construct {
         [ids.Environment.BASE_URL]: props.website.baseUrl,
         [ids.Environment.OBJECT_PREFIX]: props.website.packagesObjectPrefix || '',
         [ids.Environment.METADATA_FILENAME]: props.website.metadataFile,
-        [ids.Environment.TABLE_NAME]: table.tableName
+        [ids.Environment.TABLE_NAME]: this.table.tableName
       },
       events: [ new SqsEventSource(queue) ]
     });
 
     props.website.bucket.grantReadWrite(handler);
-    table.grantReadWriteData(handler);
+    this.table.grantReadWriteData(handler);
 
     this.topic = new DynamoTopic(this, 'Topic', {
-      source: table,
+      source: this.table,
       events: [ EventType.INSERT ]
     });
 

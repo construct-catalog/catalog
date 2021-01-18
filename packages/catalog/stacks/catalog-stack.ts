@@ -9,6 +9,7 @@ import { HostedZone } from 'monocdk-experiment/aws-route53';
 import * as sns from 'monocdk-experiment/aws-sns';
 import * as dynamodb from 'monocdk-experiment/aws-dynamodb';
 import { AccountPrincipal, PolicyStatement } from "monocdk-experiment/aws-iam";
+import { Latest } from '../lib/latest';
 
 export interface CatalogStackProps extends StackProps {
 
@@ -79,6 +80,12 @@ export class CatalogStack extends Stack {
       input: renderer.topic,
       twitterCredentials,
       rate: props.twitterRateLimit
+    });
+
+    new Latest(this, 'Latest', {
+      inputTables: [renderer.table, tweeter.table],
+      snapshotBucket: website.bucket,
+      snapshotKey: `${website.indexObjectPrefix}packages.json`
     });
 
     new Monitoring(this, 'Monitoring', {

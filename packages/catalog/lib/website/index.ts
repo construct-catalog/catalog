@@ -18,6 +18,7 @@ console.log({distDir});
 export class Website extends Construct {
   public readonly bucket: s3.Bucket;
   public readonly packagesObjectPrefix = 'packages/';
+  public readonly indexObjectPrefix = 'index/';
   public readonly metadataFile: string = 'metadata.json';
   public readonly baseUrl: string = 'https://awscdk.io';
 
@@ -44,7 +45,12 @@ export class Website extends Construct {
         {
           behaviors: [
             {
-              pathPattern: 'packages/*',
+              pathPattern: `${this.packagesObjectPrefix}*`,
+              allowedMethods: cf.CloudFrontAllowedMethods.GET_HEAD_OPTIONS,
+              compress: true
+            },
+            {
+              pathPattern: `${this.indexObjectPrefix}*`,
               allowedMethods: cf.CloudFrontAllowedMethods.GET_HEAD_OPTIONS,
               compress: true
             }

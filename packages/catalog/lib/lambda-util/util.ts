@@ -1,5 +1,17 @@
-import { PackageTableAttributes, Package } from "./schema";
+import type { Package } from "catalog-schema";
 import aws = require('aws-sdk');
+
+export const enum PackageTableAttributes {
+  NAME = 'name',
+  MAJOR = 'major',
+  VERSION = 'version',
+  METADATA = 'metadata',
+  URL = 'url',
+  TWEETID = 'tweetid',
+  JSON = 'json',
+  LANGUAGES = 'languages',
+}
+
 
 export function env(name: string, defaultValue?: string): string {
   const value = process.env[name];
@@ -32,7 +44,7 @@ export function toDynamoItem(p: Package): aws.DynamoDB.AttributeMap {
   if (p.url) {
     output[PackageTableAttributes.URL] = { S: p.url };
   }
-  
+
   if (p.tweetid) {
     output[PackageTableAttributes.TWEETID] = { S: p.tweetid };
   }
@@ -48,17 +60,24 @@ export function fromDynamoItem(dynamoItem: aws.DynamoDB.AttributeMap): Package {
 
   const name = dynamoItem[PackageTableAttributes.NAME]?.S;
   if (!name) { throw new Error(`invalid schema: attribute ${PackageTableAttributes.NAME} is expected`); }
-  
+
   const version = dynamoItem[PackageTableAttributes.VERSION]?.S;
   if (!version) { throw new Error(`invalid schema: attribute ${PackageTableAttributes.VERSION} is expected`); }
 
   const metadataText = dynamoItem[PackageTableAttributes.METADATA]?.S;
   if (!metadataText) { throw new Error(`invalid schema: attribute ${PackageTableAttributes.METADATA} is expected`); }
 
+  const majorS = dynamoItem[PackageTableAttributes.MAJOR]?.N;
+  const major = majorS ? parseInt(majorS) : undefined;
+
+  const languagesText = dynamoItem[PackageTableAttributes.LANGUAGES]?.S;
+
   return {
     name: name,
     version: version,
     metadata: JSON.parse(metadataText),
+    major,
+    languages: languagesText ? JSON.parse(languagesText) : undefined,
     tweetid: dynamoItem[PackageTableAttributes.TWEETID]?.S,
     url: dynamoItem[PackageTableAttributes.URL]?.S,
     json: dynamoItem[PackageTableAttributes.JSON]?.S,
