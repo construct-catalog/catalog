@@ -4,13 +4,8 @@ const SearchForm: React.FC = () => {
     const [query, setQuery] = useState("")
 
     const handleSubmit = (event: React.FormEvent) => {
-        const baseUrl = "https://twitter.com/search?src=typed_query&q="
-        const q = encodeURIComponent(
-            "(#cdk AND (" + query.split(/ /).join(' OR ') + ")) (from:awscdkio) filter:links -filter:replies"
-        )
-
         event.preventDefault()
-        window.location.assign(baseUrl + q)
+        window.location.assign(`/_search?q=${query}`)
     };
 
     return (
