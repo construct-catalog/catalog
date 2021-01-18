@@ -5,8 +5,7 @@ import { InputOnChangeData, Pagination, PaginationProps } from 'semantic-ui-reac
 import { Input } from 'semantic-ui-react'
 import { Grid } from 'semantic-ui-react'
 import logo from './logo.png';
-import { Image } from 'semantic-ui-react'
-
+import { Loader, Image } from 'semantic-ui-react'
 
 const modules = new Modules();
 
@@ -14,13 +13,14 @@ const PAGE_SIZE = 16;
 
 export class App extends React.Component<{}, { packages: Module[], activePage: number }> {
 
-  readonly inputRef: any;
+  private _loading: boolean;
 
   constructor(props: any) {
     super(props);
     this.onSearchChange = this.onSearchChange.bind(this);
     this.onPageChange = this.onPageChange.bind(this);
-    this.state = { packages: modules.search(''), activePage: 1 };
+    this._loading = true;
+    this.state = { packages: [], activePage: 1 };
   }
 
   public render() {
@@ -42,6 +42,8 @@ export class App extends React.Component<{}, { packages: Module[], activePage: n
       cards.push(<PackageCard key={i}  module={packagesInPage[i]}></PackageCard>)
     }
 
+    const cardsPerRow = 'five';
+
     return (
 
       <Grid>
@@ -54,8 +56,8 @@ export class App extends React.Component<{}, { packages: Module[], activePage: n
         <Grid.Row centered>
           <Pagination totalPages={totalPages} onPageChange={this.onPageChange}/>
         </Grid.Row>
-        <Grid.Row className="ui five doubling stackable cards">
-          {cards}
+        <Grid.Row className={`ui ${cardsPerRow} doubling stackable cards`}>
+          {this._loading ? <Loader active inline='centered' /> : cards}
         </Grid.Row>
       </Grid>
 
@@ -70,7 +72,10 @@ export class App extends React.Component<{}, { packages: Module[], activePage: n
 
   private onPageChange(event: React.MouseEvent<HTMLAnchorElement>, data: PaginationProps) {
     this.setState({ activePage: data.activePage as number });
+  }
 
+  private search(q: string) {
+    this._loading = true;
   }
 
 }
