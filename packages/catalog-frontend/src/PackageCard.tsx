@@ -1,35 +1,48 @@
 import React from 'react'
-import moment from 'moment';
-import { Module } from './modules';
+import * as schema from 'catalog-schema';
 import { Card, Icon } from 'semantic-ui-react'
 
 export interface PackageCardProps {
-  readonly module: Module;
+  readonly package: schema.Package;
 }
 
 export class PackageCard extends React.Component<PackageCardProps, {}> {
 
-  private readonly module: Module;
-
-  constructor(props: PackageCardProps) {
-    super(props);
-    this.module = props.module;
-  }
-
   public render() {
+
+    const languages = ['typescript', 'javascript'];
+
+    if (this.props.package.languages?.dotnet) {
+      languages.push('dotnet');
+    }
+
+    if (this.props.package.languages?.go) {
+      languages.push('go');
+    }
+
+    if (this.props.package.languages?.java) {
+      languages.push('java');
+    }
+
+    if (this.props.package.languages?.python) {
+      languages.push('python');
+    }
+
+    const date = new Date((this.props.package.metadata as any).date).toDateString();
+
     return (
-      <Card>
+      <Card link raised href={this.props.package.url}>
         <Card.Content>
-          <Card.Header>{this.module.name}</Card.Header>
+          <Card.Header>{this.props.package.name}@{this.props.package.version}</Card.Header>
           <Card.Meta>
-            <span className='date'>Last published: {moment(this.module.lastPublished).format('DD MMM YYYY')} | Version: {this.module.version}</span>
+            <span className='date'>Last published: {date}</span>
           </Card.Meta>
           <Card.Description>
-            {this.module.description}
+            {this.props.package.metadata.description}
           </Card.Description>
         </Card.Content>
         <Card.Content extra>
-          <Icon name='language'/>{this.module.languages.join(' | ')}
+          <Icon name='language'/>{languages.join(' | ')}
         </Card.Content>
       </Card>
     )

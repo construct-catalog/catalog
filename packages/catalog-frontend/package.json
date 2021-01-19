@@ -24,7 +24,7 @@
     "catalog-schema": "0.1.0"
   },
   "scripts": {
-    "start": "react-scripts start",
+    "start": "mkdir -p public/index && curl https://awscdk.io/index/packages.json -o public/index/packages.json && react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"

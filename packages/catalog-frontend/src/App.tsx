@@ -1,26 +1,22 @@
 import React from 'react';
 import PackageCard from './PackageCard';
-import { Modules, Module } from './modules';
-import { InputOnChangeData, Pagination, PaginationProps } from 'semantic-ui-react'
-import { Input } from 'semantic-ui-react'
+import * as schema from 'catalog-schema';
+import { Icon, Label, Input, InputOnChangeData, Pagination, PaginationProps } from 'semantic-ui-react'
 import { Grid } from 'semantic-ui-react'
+import { searchByQuery } from './SearchApi';
 import logo from './logo.png';
-import { Loader, Image } from 'semantic-ui-react'
-
-const modules = new Modules();
+import { Image } from 'semantic-ui-react'
 
 const PAGE_SIZE = 16;
 
-export class App extends React.Component<{}, { packages: Module[], activePage: number }> {
-
-  private _loading: boolean;
+export class App extends React.Component<{}, { packages: schema.Package[], activePage: number }> {
 
   constructor(props: any) {
     super(props);
     this.onSearchChange = this.onSearchChange.bind(this);
     this.onPageChange = this.onPageChange.bind(this);
-    this._loading = true;
     this.state = { packages: [], activePage: 1 };
+    this.search('');
   }
 
   public render() {
@@ -31,18 +27,19 @@ export class App extends React.Component<{}, { packages: Module[], activePage: n
 
     const start = (activePage - 1) * PAGE_SIZE;
 
-    for (const module of packages.slice(start, Math.min(start + PAGE_SIZE, packages.length))) {
-      packagesInPage.push(module);
+    for (const p of packages.slice(start, Math.min(start + PAGE_SIZE, packages.length))) {
+      packagesInPage.push(p);
     }
 
     const totalPages = Math.ceil(packages.length / PAGE_SIZE);
     const cards = [];
 
     for (const i in packagesInPage) {
-      cards.push(<PackageCard key={i}  module={packagesInPage[i]}></PackageCard>)
+      const p = packagesInPage[i];
+      cards.push(<PackageCard key={i} package={p}></PackageCard>)
     }
 
-    const cardsPerRow = 'five';
+    const cardsPerRow = 'four';
 
     return (
 
@@ -51,13 +48,16 @@ export class App extends React.Component<{}, { packages: Module[], activePage: n
           <Image src={logo} alt="logo" size='small'></Image>
         </Grid.Row>
         <Grid.Row className="App-search" centered>
-          <Input onChange={this.onSearchChange} placeholder='Search...'/>
+          <Input onChange={this.onSearchChange}/>
         </Grid.Row>
         <Grid.Row centered>
           <Pagination totalPages={totalPages} onPageChange={this.onPageChange}/>
+          <Label>
+            <Icon name='numbered list'/> {packages.length}
+          </Label>
         </Grid.Row>
         <Grid.Row className={`ui ${cardsPerRow} doubling stackable cards`}>
-          {this._loading ? <Loader active inline='centered' /> : cards}
+          {cards}
         </Grid.Row>
       </Grid>
 
@@ -66,8 +66,7 @@ export class App extends React.Component<{}, { packages: Module[], activePage: n
   }
 
   private onSearchChange(event: React.ChangeEvent<HTMLInputElement>, data: InputOnChangeData) {
-    const packages = modules.search(data.value);
-    this.setState({ packages: packages })
+    this.search(data.value);
   }
 
   private onPageChange(event: React.MouseEvent<HTMLAnchorElement>, data: PaginationProps) {
@@ -75,7 +74,10 @@ export class App extends React.Component<{}, { packages: Module[], activePage: n
   }
 
   private search(q: string) {
-    this._loading = true;
+    searchByQuery(q)
+      .then(data => {
+        this.setState({ packages: data })
+      });
   }
 
 }
