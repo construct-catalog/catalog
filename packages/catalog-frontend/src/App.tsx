@@ -1,12 +1,11 @@
 import React from 'react';
 import PackageCard from './PackageCard';
 import * as schema from 'catalog-schema';
-import { Icon, Label, Input, InputOnChangeData } from 'semantic-ui-react'
+import { Form, Icon, Image, Input, InputOnChangeData, Label } from 'semantic-ui-react'
 import { Grid } from 'semantic-ui-react'
 import { searchByQuery, getTotalCount } from './SearchApi';
-import logo from './logo.png';
 import './App.css';
-import { Image } from 'semantic-ui-react'
+import logo from './logo.png';
 
 export class App extends React.Component<{}, { packages: schema.Package[], activePage: number, count: number }> {
 
@@ -34,13 +33,20 @@ export class App extends React.Component<{}, { packages: schema.Package[], activ
 
       <Grid padded>
         <Grid.Row className="App-search" centered>
-          <Image src={logo} alt="logo" size='small'></Image>
+          <h1>
+            <Image src={logo} style={{ width: '3rem', height: '3rem' }} aria-hidden='true' floated='left' /> CDK Constructs Catalog
+          </h1>
         </Grid.Row>
         <Grid.Row className="App-search" centered>
-          <Input onChange={this.onSearchChange}/>
-          <Label className="v-middle">
-            <Icon name='numbered list'/> {packages.length}/{this.state.count}
-          </Label>
+          <Form>
+            <Form.Field>
+              <Input icon='search' iconPosition='left' placeholder='Search...' onChange={this.onSearchChange} />
+              <Label pointing='above' color='blue'>
+                <Icon name='box' aria-hidden='true'/>
+                {new Set(packages.map(pkg => pkg.name)).size} packages selected
+              </Label>
+            </Form.Field>
+          </Form>
         </Grid.Row>
         <Grid.Row className={`ui ${cardsPerRow} doubling stackable cards container`}>
           {cards}
