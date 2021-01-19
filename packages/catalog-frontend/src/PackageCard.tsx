@@ -29,23 +29,26 @@ export class PackageCard extends React.Component<PackageCardProps, {}> {
     }
 
     const date = new Date(this.props.package.metadata.date).toLocaleDateString();
+    const author = this.props.package.metadata.author.name;
 
     return (
-      <Card raised>
+      <Card link raised>
         <Card.Content link href={this.props.package.url}>
           <Card.Header className='package-name'>
-            {this.props.package.name} <Label tag size='small' aria-label='Major Version'>{this.props.package.major}.x</Label>
+            {this.props.package.name} <Label tag size='mini' aria-label='Major Version'>{this.props.package.major}.x</Label>
             <Label attached='top right' aria-label='Latest Version'>{this.props.package.version}</Label>
           </Card.Header>
-          <Card.Meta>
-            <span className='date'>Last published: {date}</span>
+          <Card.Meta style={{ marginTop: '0.5rem' }} >
+            <span className='date'>Last published: {date} | {author}</span>
           </Card.Meta>
           <Card.Description aria-label='Package description'>
             {this.props.package.metadata.description}
           </Card.Description>
         </Card.Content>
         <Card.Content extra aria-label='Keywords'>
-          {(this.props.package.metadata.keywords || [])?.sort().map(kw => (<Label>{kw}</Label>))}
+          <Label.Group as='span'>
+            {(this.props.package.metadata.keywords ?? []).sort().map(kw => (<Label>{kw}</Label>))}
+          </Label.Group>
         </Card.Content>
         <Card.Content extra aria-label='Supported Languages'>
           <SupportedLanguageList config={this.props.package.languages} />
