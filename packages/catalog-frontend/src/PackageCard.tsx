@@ -35,7 +35,7 @@ export class PackageCard extends React.Component<PackageCardProps, {}> {
       <Card link raised>
         <Card.Content link href={this.props.package.url}>
           <Card.Header className='package-name'>
-            {this.props.package.name} <Label tag size='mini' aria-label='Major Version'>{this.props.package.major}.x</Label>
+            {this.props.package.name}
             <Label attached='top right' aria-label='Latest Version'>{this.props.package.version}</Label>
           </Card.Header>
           <Card.Meta style={{ marginTop: '0.5rem' }} >
