@@ -64,7 +64,7 @@
   "peerDependencies": {},
   "dependencies": {
     "cdk8s": "0.25.0-pre.2b30557056d5d0b3c3ee91d376e546bed74fdb17",
-    "constructs": "^2.0.0",
+    "constructs": "^3.2.108",
     "cdk8s-plus": "0.25.0-pre.2b30557056d5d0b3c3ee91d376e546bed74fdb17",
     "aws-sdk": "^2.696.0",
     "@elastic/elasticsearch": "^7.7.1"
