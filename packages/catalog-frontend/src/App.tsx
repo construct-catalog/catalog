@@ -43,7 +43,7 @@ export class App extends React.Component<{}, { packages: schema.Package[], activ
               <Input icon='search' iconPosition='left' placeholder='Search...' onChange={this.onSearchChange} />
               <Label pointing='above' color='blue'>
                 <Icon name='box' aria-hidden='true'/>
-                {new Set(packages.map(pkg => pkg.name)).size} packages selected
+                {new Set(packages.map(pkg => pkg.name)).size} packages available
               </Label>
             </Form.Field>
           </Form>
