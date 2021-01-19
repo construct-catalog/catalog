@@ -28,7 +28,7 @@ export class PackageCard extends React.Component<PackageCardProps, {}> {
       languages.push('python');
     }
 
-    const date = new Date((this.props.package.metadata as any).date).toDateString();
+    const date = new Date(this.props.package.metadata.date).toDateString();
 
     return (
       <Card link raised href={this.props.package.url}>

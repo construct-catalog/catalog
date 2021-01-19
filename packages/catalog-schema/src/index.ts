@@ -92,6 +92,7 @@ export interface PackageMetadata {
   name: string;
   scope: string;
   version: string;
+  date: string;
   description: string;
   keywords?: string[];
   links: {
