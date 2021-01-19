@@ -1,6 +1,6 @@
 import React from 'react'
 import * as schema from 'catalog-schema';
-import { Card, Icon, Label } from 'semantic-ui-react'
+import { Card, Container, Icon, Label, Segment } from 'semantic-ui-react'
 
 export interface PackageCardProps {
   readonly package: schema.Package;
@@ -34,18 +34,20 @@ export class PackageCard extends React.Component<PackageCardProps, {}> {
       <Card raised>
         <Card.Content link href={this.props.package.url}>
           <Card.Header className='package-name'>
-            {this.props.package.name} <Label tag size='small' aria-label='Major Version'>{this.props.package.major}.x</Label>
+            {this.props.package.name}
             <Label attached='top right' aria-label='Latest Version'>{this.props.package.version}</Label>
           </Card.Header>
           <Card.Meta>
             <span className='date'>Last published: {date}</span>
           </Card.Meta>
           <Card.Description aria-label='Package description'>
-            {this.props.package.metadata.description}
+            <p>
+              {this.props.package.metadata.description}
+            </p>
+            <p>
+              {(this.props.package.metadata.keywords || [])?.sort().map(kw => (<Label circular size="tiny">{kw}</Label>))}
+            </p>
           </Card.Description>
-        </Card.Content>
-        <Card.Content extra aria-label='Keywords'>
-          {(this.props.package.metadata.keywords || [])?.sort().map(kw => (<Label>{kw}</Label>))}
         </Card.Content>
         <Card.Content extra aria-label='Supported Languages'>
           <SupportedLanguageList config={this.props.package.languages} />

@@ -1,7 +1,7 @@
 import React from 'react';
 import PackageCard from './PackageCard';
 import * as schema from 'catalog-schema';
-import { Form, Icon, Image, Input, InputOnChangeData, Label } from 'semantic-ui-react'
+import { Form, Header, Icon, Image, Input, InputOnChangeData, Label } from 'semantic-ui-react'
 import { Grid } from 'semantic-ui-react'
 import { searchByQuery, getTotalCount } from './SearchApi';
 import './App.css';
@@ -33,17 +33,15 @@ export class App extends React.Component<{}, { packages: schema.Package[], activ
 
       <Grid padded>
         <Grid.Row className="App-search" centered>
-          <h1>
-            <Image src={logo} style={{ width: '3rem', height: '3rem' }} aria-hidden='true' floated='left' /> CDK Constructs Catalog
-          </h1>
+          <Header size="large">CDK Construct Catalog</Header>
         </Grid.Row>
         <Grid.Row className="App-search" centered>
           <Form>
             <Form.Field>
-              <Input icon='search' iconPosition='left' placeholder='Search...' onChange={this.onSearchChange} />
+              <Input size="large" icon='search' iconPosition='left' placeholder='Search construct libraries...' onChange={this.onSearchChange} />
               <Label pointing='above' color='blue'>
                 <Icon name='box' aria-hidden='true'/>
-                {new Set(packages.map(pkg => pkg.name)).size} packages selected
+                Showing {new Set(packages.map(pkg => pkg.name)).size} packages
               </Label>
             </Form.Field>
           </Form>
