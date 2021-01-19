@@ -1,11 +1,10 @@
 import React from 'react';
 import PackageCard from './PackageCard';
 import * as schema from 'catalog-schema';
-import { Form, Header, Icon, Image, Input, InputOnChangeData, Label } from 'semantic-ui-react'
+import { Form, Header, Icon, Input, InputOnChangeData, Label } from 'semantic-ui-react'
 import { Grid } from 'semantic-ui-react'
 import { searchByQuery, getTotalCount } from './SearchApi';
 import './App.css';
-import logo from './logo.png';
 
 export class App extends React.Component<{}, { packages: schema.Package[], activePage: number, count: number }> {
 

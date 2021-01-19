@@ -1,6 +1,6 @@
 import React from 'react'
 import * as schema from 'catalog-schema';
-import { Card, Container, Icon, Label, Segment } from 'semantic-ui-react'
+import { Card, Icon, Label } from 'semantic-ui-react'
 
 export interface PackageCardProps {
   readonly package: schema.Package;
