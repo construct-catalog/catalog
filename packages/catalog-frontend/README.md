@@ -9,6 +9,10 @@ In the project directory, you can run:
 Runs the app in the development mode.<br />
 Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 
+This will download the `packages.json` file and put it in the expected location (`/public/index/`) for the code to fetch from, simulating the production environment.
+
+> Note this means changes to the live file on `awscdk.io` will not be reflected during development. To refresh the data, stop the server and run `yarn start` aain.
+
 The page will reload if you make edits.<br />
 You will also see any lint errors in the console.
 
