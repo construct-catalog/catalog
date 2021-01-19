@@ -197,6 +197,12 @@ test('with keyword hit', async () => {
     expect(result[0].name).toBe('cdk-apex-cname');
 });
 
+test('total count', async () => {
+    const result = await testee.getTotalCount();
+
+    expect(result).toBe(3);
+});
+
 test('handle error', async () => {
     const errorMessage = 'Failed to parse JSON';
     console.error = jest.fn();
