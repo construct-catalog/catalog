@@ -37,7 +37,7 @@ export class App extends React.Component<{}, { packages: schema.Package[], activ
         <Grid.Row className="App-search" centered>
           <Form>
             <Form.Field>
-              <Input size="large" icon='search' iconPosition='left' placeholder='Search construct libraries...' onChange={this.onSearchChange} />
+              <Input icon='search' iconPosition='left' placeholder='Search construct libraries...' onChange={this.onSearchChange} />
               <Label pointing='above' color='blue'>
                 <Icon name='box' aria-hidden='true'/>
                 Showing {new Set(packages.map(pkg => pkg.name)).size} packages
