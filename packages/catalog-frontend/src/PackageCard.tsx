@@ -47,7 +47,7 @@ export class PackageCard extends React.Component<PackageCardProps, {}> {
             </p>
             <p>
               <Label.Group as='span'>
-                {e(this.props.package.metadata.keywords ?? []).sort().map(kw => (<Label>{kw}</Label>))}
+                {(this.props.package.metadata.keywords ?? []).sort().map(kw => (<Label>{kw}</Label>))}
               </Label.Group>
             </p>
           </Card.Description>
