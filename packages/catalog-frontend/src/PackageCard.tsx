@@ -42,13 +42,15 @@ export class PackageCard extends React.Component<PackageCardProps, {}> {
             <span className='date'>Last published: {date} | {author}</span>
           </Card.Meta>
           <Card.Description aria-label='Package description'>
-            {this.props.package.metadata.description}
+            <p>
+              {this.props.package.metadata.description}
+            </p>
+            <p>
+              <Label.Group as='span'>
+                {(this.props.package.metadata.keywords ?? []).sort().map(kw => (<Label>{kw}</Label>))}
+              </Label.Group>
+            </p>
           </Card.Description>
-        </Card.Content>
-        <Card.Content extra aria-label='Keywords'>
-          <Label.Group as='span'>
-            {(this.props.package.metadata.keywords ?? []).sort().map(kw => (<Label>{kw}</Label>))}
-          </Label.Group>
         </Card.Content>
         <Card.Content extra aria-label='Supported Languages'>
           <SupportedLanguageList config={this.props.package.languages} />
