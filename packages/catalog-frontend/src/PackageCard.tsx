@@ -29,23 +29,26 @@ export class PackageCard extends React.Component<PackageCardProps, {}> {
     }
 
     const date = new Date(this.props.package.metadata.date).toLocaleDateString();
+    const author = this.props.package.metadata.author.name;
 
     return (
-      <Card raised>
+      <Card link raised>
         <Card.Content link href={this.props.package.url}>
           <Card.Header className='package-name'>
             {this.props.package.name}
             <Label attached='top right' aria-label='Latest Version'>{this.props.package.version}</Label>
           </Card.Header>
-          <Card.Meta>
-            <span className='date'>Last published: {date}</span>
+          <Card.Meta style={{ marginTop: '0.5rem' }} >
+            <span className='date'>Last published: {date} | {author}</span>
           </Card.Meta>
           <Card.Description aria-label='Package description'>
             <p>
               {this.props.package.metadata.description}
             </p>
             <p>
-              {(this.props.package.metadata.keywords || [])?.sort().map(kw => (<Label circular size="tiny">{kw}</Label>))}
+              <Label.Group as='span'>
+                {e(this.props.package.metadata.keywords ?? []).sort().map(kw => (<Label>{kw}</Label>))}
+              </Label.Group>
             </p>
           </Card.Description>
         </Card.Content>
