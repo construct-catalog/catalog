@@ -32,7 +32,6 @@ export class App extends React.Component<{}, { packages: schema.Package[], activ
     return (
       <Container fluid>
         <Segment basic>
-          <GithubCorner href="https://github.com/construct-catalog/catalog" />
           <Grid padded>
             <Grid.Row centered>
               <Container>
@@ -72,6 +71,9 @@ export class App extends React.Component<{}, { packages: schema.Package[], activ
             </Grid>
           </Container>
         </Segment>
+
+        <GithubCorner href="https://github.com/construct-catalog/catalog" />
+
       </Container>
     );
   }
