@@ -36,7 +36,7 @@ export class Website extends Construct {
 
     const websitePrefix = 'website';
 
-    new StaticWebsite(this, 'StaticWebsite', {
+    const website = new StaticWebsite(this, 'StaticWebsite', {
       bucket: this.bucket,
       hostedZone: props.hostedZone,
       domainName: props.domainName,
@@ -47,7 +47,7 @@ export class Website extends Construct {
             {
               pathPattern: `${this.packagesObjectPrefix}*`,
               allowedMethods: cf.CloudFrontAllowedMethods.GET_HEAD_OPTIONS,
-              compress: true
+              compress: true,
             },
             {
               pathPattern: `${this.indexObjectPrefix}*`,
@@ -62,7 +62,8 @@ export class Website extends Construct {
     new s3deploy.BucketDeployment(this, 'DeployWebsite', {
       destinationBucket: this.bucket,
       destinationKeyPrefix: websitePrefix,
+      distribution: website.distribution,
       sources: [ s3deploy.Source.asset(distDir) ],
-    });
+    })
   }
 }
