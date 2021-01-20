@@ -6,6 +6,7 @@ import iam = require('monocdk-experiment/aws-iam');
 import sqs = require('monocdk-experiment/aws-sqs');
 import ec2 = require('monocdk-experiment/aws-ec2');
 import logs = require('monocdk-experiment/aws-logs');
+import cloudwatch = require('monocdk-experiment/aws-cloudwatch');
 
 import { Construct, Duration, FileSystem, SymlinkFollowMode } from 'monocdk-experiment';
 import { AssetOptions } from 'monocdk-experiment/aws-s3-assets';
@@ -221,6 +222,10 @@ export class NodeFunction extends lambda.Function {
       runtime,
       timeout,
     });
+  }
+
+  public getErrorMetric(): cloudwatch.IMetric {
+    return this.metricErrors({unit: Unit.COUNT, label: this.functionName, period: Duration.minutes(1)});
   }
 }
 

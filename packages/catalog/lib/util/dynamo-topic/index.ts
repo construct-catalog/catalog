@@ -1,5 +1,6 @@
 import { Construct } from "monocdk-experiment";
 import sns = require('monocdk-experiment/aws-sns');
+import cloudwatch = require('monocdk-experiment/aws-cloudwatch');
 import dynamo = require('monocdk-experiment/aws-dynamodb');
 import sources = require('monocdk-experiment/aws-lambda-event-sources');
 import { NodeFunction } from '../node-function';
@@ -30,6 +31,8 @@ export enum EventType {
  * A queue that is automatically populated with all updates to a DynamoDB table.
  */
 export class DynamoTopic extends sns.Topic {
+  public readonly metrics: cloudwatch.IMetric[] = [];
+
   constructor(scope: Construct, id: string, props: DynamoTopicProps) {
     super(scope, id, props);
 
@@ -52,6 +55,8 @@ export class DynamoTopic extends sns.Topic {
         [ids.Environment.INCLUDE_EVENTS]: Array.from(new Set(events)).join(',')
       }
     });
+    this.metrics.push(forwarder.getErrorMetric());
+
 
     this.grantPublish(forwarder);
   }

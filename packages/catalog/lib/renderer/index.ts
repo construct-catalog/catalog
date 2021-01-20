@@ -34,6 +34,8 @@ export class Renderer extends Construct {
 
   public readonly table: dynamo.Table;
 
+  public readonly lambdaErrorMetrics: cloudwatch.IMetric[] = [];
+
   constructor(parent: Construct, id: string, props: RendererProps) {
     super(parent, id);
 
@@ -66,6 +68,8 @@ export class Renderer extends Construct {
       },
       events: [ new SqsEventSource(queue) ]
     });
+
+    this.lambdaErrorMetrics.push(handler.getErrorMetric());
 
     props.website.bucket.grantReadWrite(handler);
     this.table.grantReadWriteData(handler);

@@ -20,6 +20,7 @@ export class Ingestion extends Construct {
   public readonly topic: sns.Topic;
   public readonly discoveredPerFiveMinutes: cloudwatch.Metric;
   public readonly logGroup: string;
+  public readonly lambdaErrorMetrics: cloudwatch.IMetric[] = [];
 
   constructor(scope: Construct, id: string, props: IngestionProps = {}) {
     super(scope, id);
@@ -42,6 +43,8 @@ export class Ingestion extends Construct {
         [ids.Environment.TABLE_NAME]: table.tableName
       }
     });
+
+    this.lambdaErrorMetrics.push(handler.getErrorMetric());
 
     new events.Rule(this, 'Tick', {
       schedule: events.Schedule.rate(props.period || Duration.minutes(1)),

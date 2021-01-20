@@ -96,7 +96,12 @@ export class CatalogStack extends Stack {
       indexerLogGroup: tweeter.logGroup,
       ingestionLogGroup: ingestion.logGroup,
       rendererLogGroup: renderer.logGroup,
-      packagesTable: tweeter.table
+      packagesTable: tweeter.table,
+      lambdaErrorMetrics: [
+        ...ingestion.lambdaErrorMetrics,
+        ...tweeter.lambdaErrorMetrics,
+        ...renderer.lambdaErrorMetrics
+      ]
     });
 
     this.updates = tweeter.topic;

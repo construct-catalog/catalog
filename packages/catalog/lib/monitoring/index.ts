@@ -12,6 +12,7 @@ export interface MonitoringProps {
   readonly rendererLogGroup: string;
   readonly indexerLogGroup: string;
   readonly packagesTable: dynamodb.Table;
+  readonly lambdaErrorMetrics: cloudwatch.IMetric[];
 }
 
 export class Monitoring extends Construct {
@@ -50,6 +51,14 @@ export class Monitoring extends Construct {
       new cloudwatch.GraphWidget({ title: 'Rendered/5m', left: [ props.renderedPerFiveMinutes ] }),
       new cloudwatch.GraphWidget({ title: 'Tweeted/5m', left: [ props.tweetsPerFiveMinutes ] }),
     );
+
+    dashboard.addWidgets(
+      new cloudwatch.GraphWidget({
+        title: 'Lambda Errors',
+        left: props.lambdaErrorMetrics,
+        width: 24
+      })
+    )
   }
 
   private linkToS3Console(bucket: s3.Bucket) {
