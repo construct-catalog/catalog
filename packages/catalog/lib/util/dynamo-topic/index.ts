@@ -31,7 +31,7 @@ export enum EventType {
  * A queue that is automatically populated with all updates to a DynamoDB table.
  */
 export class DynamoTopic extends sns.Topic {
-  public readonly metrics: cloudwatch.IMetric[] = [];
+  public readonly lambdaErrorMetrics: cloudwatch.IMetric[] = [];
 
   constructor(scope: Construct, id: string, props: DynamoTopicProps) {
     super(scope, id, props);
@@ -55,7 +55,7 @@ export class DynamoTopic extends sns.Topic {
         [ids.Environment.INCLUDE_EVENTS]: Array.from(new Set(events)).join(',')
       }
     });
-    this.metrics.push(forwarder.getErrorMetric());
+    this.lambdaErrorMetrics.push(forwarder.getErrorMetric());
 
 
     this.grantPublish(forwarder);
