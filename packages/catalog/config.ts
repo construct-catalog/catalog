@@ -30,6 +30,6 @@ export const prod: CatalogStackProps = {
   ],
   slack: {
     workspaceId: 'T017JQ2SWES', // cdk.dev
-    channelId: 'C01K077KF5Z' // #cdk-catalog-hackathon
+    channelId: 'C01K8HS7C1L' // #construct-catalog-alarms
   },
 };
