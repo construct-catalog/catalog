@@ -27,5 +27,9 @@ export const prod: CatalogStackProps = {
   },
   externalAccountSubscribers: [
     "536309290949"  // so matthew.bonig@gmail.com can auto-build his constructs when new versions of `core` are released.
-  ]
+  ],
+  slack: {
+    workspaceId: 'T017JQ2SWES', // cdk.dev
+    channelId: 'C01K077KF5Z' // #cdk-catalog-hackathon
+  },
 };

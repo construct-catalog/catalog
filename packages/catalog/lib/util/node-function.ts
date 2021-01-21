@@ -11,6 +11,7 @@ import cloudwatch = require('monocdk-experiment/aws-cloudwatch');
 import { Construct, Duration, FileSystem, SymlinkFollowMode } from 'monocdk-experiment';
 import { AssetOptions } from 'monocdk-experiment/aws-s3-assets';
 import { FollowMode } from 'monocdk-experiment/lib/assets';
+import { Unit } from "monocdk-experiment/aws-cloudwatch";
 
 export interface NodeFunctionProps {
   /**
@@ -224,8 +225,12 @@ export class NodeFunction extends lambda.Function {
     });
   }
 
-  public getErrorMetric(): cloudwatch.IMetric {
-    return this.metricErrors({unit: Unit.COUNT, label: this.functionName, period: Duration.minutes(1)});
+  public getErrorMetric(): cloudwatch.Metric {
+    return this.metricErrors({
+      unit: Unit.COUNT,
+      label: `${this.node.scope?.node.id}-${this.node.id}`,
+      period: Duration.minutes(1),
+    });
   }
 }
 

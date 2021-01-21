@@ -32,6 +32,15 @@ export interface CatalogStackProps extends StackProps {
    * Tweet rate limiting.
    */
   readonly twitterRateLimit: TweetRate;
+
+  /**
+   * Slack notification channel setup. Providing this creates an AWS Chatbot Slack integration. All alarms are published
+   * to a topic and pushed through to Chatbot.
+   *
+   * @default undefined - no AWS Chatbot Slack integration is setup. Notifications to the Alarms topic must be setup manually
+   */
+
+  readonly slack?: SlackMonitoringProps;
 }
 
 export class CatalogStack extends Stack {
@@ -101,7 +110,8 @@ export class CatalogStack extends Stack {
         ...ingestion.lambdaErrorMetrics,
         ...tweeter.lambdaErrorMetrics,
         ...renderer.lambdaErrorMetrics
-      ]
+      ],
+      slack: props.slack
     });
 
     this.updates = tweeter.topic;

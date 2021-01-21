@@ -20,7 +20,7 @@ export class Ingestion extends Construct {
   public readonly topic: sns.Topic;
   public readonly discoveredPerFiveMinutes: cloudwatch.Metric;
   public readonly logGroup: string;
-  public readonly lambdaErrorMetrics: cloudwatch.IMetric[] = [];
+  public readonly lambdaErrorMetrics: cloudwatch.Metric[] = [];
 
   constructor(scope: Construct, id: string, props: IngestionProps = {}) {
     super(scope, id);
