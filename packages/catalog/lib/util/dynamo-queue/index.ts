@@ -58,7 +58,7 @@ export class DynamoQueue extends sqs.Queue {
         [ids.Environment.INCLUDE_EVENTS]: Array.from(new Set(events)).join(',')
       }
     });
-    this.lambdaErrorMetrics.push(forwarder.getErrorMetric());
+    this.lambdaErrorMetrics.push(forwarder.errorMetric);
 
     this.grantSendMessages(forwarder);
   }

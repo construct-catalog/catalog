@@ -225,7 +225,7 @@ export class NodeFunction extends lambda.Function {
     });
   }
 
-  public getErrorMetric(): cloudwatch.Metric {
+  public get errorMetric(): cloudwatch.Metric {
     return this.metricErrors({
       unit: Unit.COUNT,
       label: `${this.node.scope?.node.id}-${this.node.id}`,

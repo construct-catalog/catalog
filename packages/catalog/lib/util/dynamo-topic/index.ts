@@ -55,7 +55,7 @@ export class DynamoTopic extends sns.Topic {
         [ids.Environment.INCLUDE_EVENTS]: Array.from(new Set(events)).join(',')
       }
     });
-    this.lambdaErrorMetrics.push(forwarder.getErrorMetric());
+    this.lambdaErrorMetrics.push(forwarder.errorMetric);
 
 
     this.grantPublish(forwarder);

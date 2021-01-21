@@ -44,7 +44,7 @@ export class Ingestion extends Construct {
       }
     });
 
-    this.lambdaErrorMetrics.push(handler.getErrorMetric());
+    this.lambdaErrorMetrics.push(handler.errorMetric);
 
     new events.Rule(this, 'Tick', {
       schedule: events.Schedule.rate(props.period || Duration.minutes(1)),

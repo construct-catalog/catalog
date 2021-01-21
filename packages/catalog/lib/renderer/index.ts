@@ -69,7 +69,7 @@ export class Renderer extends Construct {
       events: [ new SqsEventSource(queue) ]
     });
 
-    this.lambdaErrorMetrics.push(handler.getErrorMetric());
+    this.lambdaErrorMetrics.push(handler.errorMetric);
 
 
     props.website.bucket.grantReadWrite(handler);

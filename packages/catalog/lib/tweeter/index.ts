@@ -109,7 +109,7 @@ export class Tweeter extends Construct {
       events: [ new sources.SqsEventSource(queue, { batchSize: 1 }) ],
     });
 
-    this.lambdaErrorMetrics.push(handler.getErrorMetric());
+    this.lambdaErrorMetrics.push(handler.errorMetric);
 
 
     props.twitterCredentials?.grantRead(handler);
@@ -145,7 +145,7 @@ export class Tweeter extends Construct {
       codeDirectory: __dirname + '/lambda',
       indexFile: 'enable_event_source',
     });
-    this.lambdaErrorMetrics.push(enableEventSourceHandler.getErrorMetric());
+    this.lambdaErrorMetrics.push(enableEventSourceHandler.errorMetric);
 
 
     enableEventSourceHandler.addEventSource(new sources.SnsEventSource(requestQuota.autoResetTopic))
