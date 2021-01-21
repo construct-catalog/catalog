@@ -4,7 +4,7 @@ import { Renderer } from "../lib/renderer";
 import { Website } from '../lib/website';
 import { Tweeter, TweetRate } from '../lib/tweeter';
 import secrets = require('monocdk-experiment/aws-secretsmanager');
-import { Monitoring } from '../lib/monitoring';
+import { Monitoring, SlackMonitoringProps } from '../lib/monitoring';
 import { HostedZone } from 'monocdk-experiment/aws-route53';
 import * as sns from 'monocdk-experiment/aws-sns';
 import * as dynamodb from 'monocdk-experiment/aws-dynamodb';
