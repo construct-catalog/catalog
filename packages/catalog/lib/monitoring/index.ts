@@ -3,7 +3,7 @@ import { Alarm, TreatMissingData } from "monocdk-experiment/aws-cloudwatch";
 import { SnsAction } from "monocdk-experiment/aws-cloudwatch-actions";
 import { Topic } from "monocdk-experiment/aws-sns";
 import { SlackChannelConfiguration } from "monocdk-experiment/aws-chatbot";
-import { Effect, ManagedPolicy, PolicyStatement } from "monocdk-experiment/aws-iam";
+import { ManagedPolicy } from "monocdk-experiment/aws-iam";
 import cloudwatch = require('monocdk-experiment/aws-cloudwatch');
 import s3 = require('monocdk-experiment/aws-s3');
 import dynamodb = require('monocdk-experiment/aws-dynamodb');
