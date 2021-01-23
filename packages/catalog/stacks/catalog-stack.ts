@@ -1,15 +1,17 @@
-import { Stack, Construct, StackProps } from 'monocdk-experiment';
+import { Construct, Stack, StackProps } from 'monocdk-experiment';
 import { Ingestion } from '../lib/ingestion';
 import { Renderer } from "../lib/renderer";
 import { Website } from '../lib/website';
 import { Tweeter, TweetRate } from '../lib/tweeter';
-import secrets = require('monocdk-experiment/aws-secretsmanager');
 import { Monitoring, SlackMonitoringProps } from '../lib/monitoring';
 import { HostedZone } from 'monocdk-experiment/aws-route53';
 import * as sns from 'monocdk-experiment/aws-sns';
 import * as dynamodb from 'monocdk-experiment/aws-dynamodb';
 import { AccountPrincipal, PolicyStatement } from "monocdk-experiment/aws-iam";
 import { Latest } from '../lib/latest';
+import { NodeFunction } from "../lib/util/node-function";
+import secrets = require('monocdk-experiment/aws-secretsmanager');
+import { Metric } from "monocdk-experiment/aws-cloudwatch";
 
 export interface CatalogStackProps extends StackProps {
 
@@ -97,6 +99,13 @@ export class CatalogStack extends Stack {
       snapshotKey: `${website.indexObjectPrefix}packages.json`
     });
 
+    const lambdaErrorMetrics: Metric[] = [];
+    for (const child of this.node.findAll()) {
+      if (child instanceof NodeFunction) {
+        lambdaErrorMetrics.push(child.errorMetric);
+      }
+    }
+
     new Monitoring(this, 'Monitoring', {
       renderedPerFiveMinutes: renderer.renderedPerFiveMinutes,
       tweetsPerFiveMinutes: tweeter.tweetsPerFiveMinute,
@@ -106,12 +115,8 @@ export class CatalogStack extends Stack {
       ingestionLogGroup: ingestion.logGroup,
       rendererLogGroup: renderer.logGroup,
       packagesTable: tweeter.table,
-      lambdaErrorMetrics: [
-        ...ingestion.lambdaErrorMetrics,
-        ...tweeter.lambdaErrorMetrics,
-        ...renderer.lambdaErrorMetrics
-      ],
-      slack: props.slack
+      slack: props.slack,
+      lambdaErrorMetrics,
     });
 
     this.updates = tweeter.topic;

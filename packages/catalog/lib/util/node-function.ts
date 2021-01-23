@@ -228,7 +228,7 @@ export class NodeFunction extends lambda.Function {
   public get errorMetric(): cloudwatch.Metric {
     return this.metricErrors({
       unit: Unit.COUNT,
-      label: `${this.node.scope?.node.id}-${this.node.id}`,
+      label: `${this.node.scope?.node.id}-${this.node.id}`, // this needs a stable hash
       period: Duration.minutes(1),
     });
   }

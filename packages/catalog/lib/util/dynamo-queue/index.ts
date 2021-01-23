@@ -32,7 +32,6 @@ export enum EventType {
  * A queue that is automatically populated with all updates to a DynamoDB table.
  */
 export class DynamoQueue extends sqs.Queue {
-  public readonly lambdaErrorMetrics: cloudwatch.Metric[] = [];
 
   constructor(scope: Construct, id: string, props: DynamoQueueProps) {
     super(scope, id, props);
@@ -58,7 +57,6 @@ export class DynamoQueue extends sqs.Queue {
         [ids.Environment.INCLUDE_EVENTS]: Array.from(new Set(events)).join(',')
       }
     });
-    this.lambdaErrorMetrics.push(forwarder.errorMetric);
 
     this.grantSendMessages(forwarder);
   }

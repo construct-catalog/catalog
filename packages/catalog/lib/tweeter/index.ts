@@ -56,7 +56,6 @@ export class Tweeter extends Construct {
   public readonly logGroup: string;
   public readonly table: dynamo.Table;
   public readonly topic: sns.Topic;
-  public readonly lambdaErrorMetrics: cloudwatch.Metric[] = [];
 
   constructor(scope: Construct, id: string, props: TweeterProps) {
     super(scope, id);
@@ -109,9 +108,6 @@ export class Tweeter extends Construct {
       events: [ new sources.SqsEventSource(queue, { batchSize: 1 }) ],
     });
 
-    this.lambdaErrorMetrics.push(handler.errorMetric);
-
-
     props.twitterCredentials?.grantRead(handler);
     table.grantReadWriteData(handler);
     requestQuota.grantDecrement(handler);
@@ -145,8 +141,6 @@ export class Tweeter extends Construct {
       codeDirectory: __dirname + '/lambda',
       indexFile: 'enable_event_source',
     });
-    this.lambdaErrorMetrics.push(enableEventSourceHandler.errorMetric);
-
 
     enableEventSourceHandler.addEventSource(new sources.SnsEventSource(requestQuota.autoResetTopic))
     enableEventSourceHandler.addEnvironment(ids.Environment.EVENT_SOURCE_ID, eventSourceMappingId);
