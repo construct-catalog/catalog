@@ -85,8 +85,8 @@ export class Monitoring extends Construct {
       slackChannelConfiguration.role?.addManagedPolicy(ManagedPolicy.fromAwsManagedPolicyName("CloudWatchReadOnlyAccess"))
     }
 
-    for (const metric of props.lambdaErrorMetrics){
-      const alarm = new Alarm(this, `alarm-${metric.label}`, {
+    props.lambdaErrorMetrics.forEach((metric, index)=>{
+      const alarm = new Alarm(this, `alarm-${metric.label}-${index}`, {
         metric: metric,
         threshold: 1,
         evaluationPeriods: 1,
@@ -94,7 +94,7 @@ export class Monitoring extends Construct {
         actionsEnabled: true
       });
       alarm.addAlarmAction(new SnsAction(alarmTopic));
-    }
+    });
   }
 
   private linkToS3Console(bucket: s3.Bucket) {

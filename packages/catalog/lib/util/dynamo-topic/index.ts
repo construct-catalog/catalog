@@ -1,6 +1,5 @@
 import { Construct } from "monocdk-experiment";
 import sns = require('monocdk-experiment/aws-sns');
-import cloudwatch = require('monocdk-experiment/aws-cloudwatch');
 import dynamo = require('monocdk-experiment/aws-dynamodb');
 import sources = require('monocdk-experiment/aws-lambda-event-sources');
 import { NodeFunction } from '../node-function';

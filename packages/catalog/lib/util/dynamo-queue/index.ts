@@ -2,8 +2,6 @@ import { Construct, Duration } from "monocdk-experiment";
 import sqs = require('monocdk-experiment/aws-sqs');
 import dynamo = require('monocdk-experiment/aws-dynamodb');
 import sources = require('monocdk-experiment/aws-lambda-event-sources');
-import cloudwatch = require('monocdk-experiment/aws-cloudwatch');
-
 import { NodeFunction } from '../node-function';
 import ids = require('./lambda/ids');
 import { StartingPosition } from "monocdk-experiment/aws-lambda";
