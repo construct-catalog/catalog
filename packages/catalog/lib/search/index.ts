@@ -7,6 +7,7 @@ import * as iam from 'monocdk-experiment/aws-iam';
 import * as dynamodb from 'monocdk-experiment/aws-dynamodb';
 
 import { Construct } from 'monocdk-experiment';
+import { KubernetesVersion } from "monocdk-experiment/aws-eks";
 
 export interface SearchProps {
   /**
@@ -37,9 +38,10 @@ export class Search extends Construct {
       vpc: props.vpc,
       mastersRole,
       defaultCapacity: 0,
+      version: KubernetesVersion.V1_17
     });
 
-    cluster.addNodegroup('public', {
+    cluster.addNodegroupCapacity('public', {
       desiredSize: 4,
       subnets: { subnetType: ec2.SubnetType.PUBLIC }
     });
@@ -60,7 +62,7 @@ export class Search extends Construct {
     updatesQueue.grantSendMessages(serviceAccount);
     props.modulesTable.grantReadData(serviceAccount);
 
-    cluster.addResource('AwsResources', {
+    cluster.addManifest('AwsResources', {
       apiVersion: 'v1',
       kind: 'ConfigMap',
       metadata: {
