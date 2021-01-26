@@ -34,4 +34,3 @@ jobs:
       run: |
         cd packages/catalog
         npx cdk deploy --require-approval=never construct-catalog-prod
-        npx cdk deploy --require-approval=never construct-catalog-search-prod
