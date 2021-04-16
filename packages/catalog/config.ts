@@ -26,7 +26,8 @@ export const prod: CatalogStackProps = {
     region: 'us-east-1',
   },
   externalAccountSubscribers: [
-    "536309290949"  // so matthew.bonig@gmail.com can auto-build his constructs when new versions of `core` are released.
+    "536309290949",  // so matthew.bonig@gmail.com can auto-build his constructs when new versions of `core` are released.
+    "981237193288", // damadden88@googlemail.com https://github.com/mmuller88 
   ],
   slack: {
     workspaceId: 'T017JQ2SWES', // cdk.dev
