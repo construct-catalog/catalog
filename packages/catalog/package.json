@@ -32,7 +32,7 @@
     "catalog-frontend": "0.1.0",
     "catalog-schema": "0.1.0",
     "cdk-docgen": "0.1.0",
-    "constructs": "^3.0.3",
+    "constructs": "^2.0.2",
     "fs-extra": "^8.1.0",
     "monocdk-experiment": "^1.66.0",
     "s3": "^4.4.0",
