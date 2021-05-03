@@ -47,7 +47,7 @@
   "devDependencies": {
     "@types/node": "^10.17.0",
     "cdk8s-cli": "0.25.0-pre.2b30557056d5d0b3c3ee91d376e546bed74fdb17",
-    "projen": "^0.2.2",
+    "projen": "^0.16.41",
     "standard-version": "^8.0.0",
     "jest": "^26.0.1",
     "@types/jest": "^25.2.1",
