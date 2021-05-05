@@ -88,7 +88,7 @@ export async function handler(event: SQSEvent) {
         const putAssemblyObject: aws.S3.PutObjectRequest = {
           Bucket: BUCKET_NAME,
           Key: assemblyObjectKey,
-          Body: fs.readFileSync(jsiiAssembly, { encoding: 'utf8' }),
+          Body: await fs.readFile(jsiiAssembly, { encoding: 'utf8' }),
         };
         await s3.putObject(putMetadataObject).promise();
         await s3.putObject(putAssemblyObject).promise();
