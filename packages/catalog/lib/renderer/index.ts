@@ -62,6 +62,7 @@ export class Renderer extends Construct {
         [ids.Environment.BASE_URL]: props.website.baseUrl,
         [ids.Environment.OBJECT_PREFIX]: props.website.packagesObjectPrefix || '',
         [ids.Environment.METADATA_FILENAME]: props.website.metadataFile,
+        [ids.Environment.JSII_ASSEMBLY_FILENAME]: props.website.jsiiAssemblyFile,
         [ids.Environment.TABLE_NAME]: this.table.tableName
       },
       events: [ new SqsEventSource(queue) ]

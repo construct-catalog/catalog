@@ -22,6 +22,7 @@ const BUCKET_NAME = env(ids.Environment.BUCKET_NAME);
 const BASE_URL = env(ids.Environment.BASE_URL);
 const OBJECT_PREFIX = env(ids.Environment.OBJECT_PREFIX);
 const METADATA_FILENAME = env(ids.Environment.METADATA_FILENAME);
+const JSII_ASSEMBLY_FILENAME = env(ids.Environment.JSII_ASSEMBLY_FILENAME);
 const TABLE_NAME = env(ids.Environment.TABLE_NAME);
 
 const exec = promisify(cp.exec);
@@ -42,7 +43,7 @@ export async function handler(event: SQSEvent) {
         console.log(`@aws-cdk/core module does not exist, installing manually (e.g. cdk-constants)`);
         await npmInstall(`@aws-cdk/core`, { cwd: workdir });
       }
-  
+
       const modulesDirectory = path.join(workdir, 'node_modules');
       const files = await fs.readdir(modulesDirectory);
       console.log('node_modules:', files.join(','));
@@ -50,9 +51,10 @@ export async function handler(event: SQSEvent) {
       await withTempDirectory(async outdir => {
 
         const moduleDir = path.join(modulesDirectory, name);
+        const jsiiAssembly = path.join(moduleDir, '.jsii');
 
         // check if the module is a .jsii module. skip otherwise
-        if (!await fs.pathExists(path.join(moduleDir, '.jsii'))) {
+        if (!await fs.pathExists(jsiiAssembly)) {
           console.log(`Skipping non-jsii module ${name}@${version}`);
           return;
         }
@@ -77,12 +79,19 @@ export async function handler(event: SQSEvent) {
         await uploadDir(sourceDir, BUCKET_NAME, objectKeyPrefix);
 
         const metadataObjectKey = `${objectKeyPrefix}${METADATA_FILENAME}`;
-        const putObject: aws.S3.PutObjectRequest = {
+        const assemblyObjectKey = `${objectKeyPrefix}${JSII_ASSEMBLY_FILENAME}`;
+        const putMetadataObject: aws.S3.PutObjectRequest = {
           Bucket: BUCKET_NAME,
           Key: metadataObjectKey,
           Body: JSON.stringify(record.metadata),
         };
-        await s3.putObject(putObject).promise();
+        const putAssemblyObject: aws.S3.PutObjectRequest = {
+          Bucket: BUCKET_NAME,
+          Key: assemblyObjectKey,
+          Body: fs.readFileSync(jsiiAssembly, { encoding: 'utf8' }),
+        };
+        await s3.putObject(putMetadataObject).promise();
+        await s3.putObject(putAssemblyObject).promise();
 
         await dynamodb.putItem({
           TableName: TABLE_NAME,

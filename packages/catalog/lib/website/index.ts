@@ -20,6 +20,7 @@ export class Website extends Construct {
   public readonly packagesObjectPrefix = 'packages/';
   public readonly indexObjectPrefix = 'index/';
   public readonly metadataFile: string = 'metadata.json';
+  public readonly jsiiAssemblyFile: string = '.jsii';
   public readonly baseUrl: string = 'https://awscdk.io';
 
   constructor(scope: Construct, id: string, props: WebsiteProps = { }) {
