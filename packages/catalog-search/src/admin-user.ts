@@ -1,5 +1,5 @@
 import { Construct } from 'constructs';
-import * as k8s from '../imports/k8s';
+import * as k8s from './imports/k8s';
 
 export interface AdminUserProps {
   readonly namespace: string

@@ -1,5 +1,5 @@
 import { Construct } from 'constructs';
-import * as eck from '../imports/kibana.k8s.elastic.co/kibana';
+import * as eck from './imports/kibana.k8s.elastic.co/kibana';
 import { Elasticsearch } from './elasticsearch';
 
 export interface KibanaProps {

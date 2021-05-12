@@ -1,10 +1,10 @@
 import { Construct } from 'constructs';
-import * as kplus from 'cdk8s-plus';
+import * as kplus from 'cdk8s-plus-17';
 import { Chart } from 'cdk8s';
-import { Dashboard } from '../lib/dashboard';
-import { Elasticsearch } from '../lib/elasticsearch';
-import { Kibana } from '../lib/kibana';
-import { Indexer } from '../lib/indexer';
+import { Dashboard } from '../dashboard';
+import { Elasticsearch } from '../elasticsearch';
+import { Kibana } from '../kibana';
+import { Indexer } from '../indexer';
 
 export class SearchOnKind extends Chart {
   constructor(scope: Construct, name: string) {

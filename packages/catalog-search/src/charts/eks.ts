@@ -1,9 +1,9 @@
 import { Construct } from 'constructs';
 import * as cdk8s from 'cdk8s';
-import { Kibana } from '../lib/kibana';
-import { Elasticsearch } from '../lib/elasticsearch';
-import { Indexer } from '../lib/indexer';
-import * as kplus from 'cdk8s-plus';
+import { Kibana } from '../kibana';
+import { Elasticsearch } from '../elasticsearch';
+import { Indexer } from '../indexer';
+import * as kplus from 'cdk8s-plus-17';
 
 
 export class SearchOnEKS extends cdk8s.Chart {
@@ -17,8 +17,8 @@ export class SearchOnEKS extends cdk8s.Chart {
     new Indexer(this, 'Indexer', {
       elasticsearch: elasticsearch,
       awsResourcesConfig: kplus.ConfigMap.fromConfigMapName('aws-resources'),
-      awsServiceAccont: kplus.ServiceAccount.fromServiceAccountName('search'),
-    })
+      awsServiceAccount: kplus.ServiceAccount.fromServiceAccountName('search'),
+    });
 
 
   }

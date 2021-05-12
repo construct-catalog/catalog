@@ -3,23 +3,23 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@testing-library/dom": "^5",
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.3.2",
     "@testing-library/user-event": "^7.1.2",
-    "@testing-library/dom": "^5",
     "@types/jest": "^24.0.0",
     "@types/node": "^12.0.0",
     "@types/react": "^16.9.0",
     "@types/react-dom": "^16.9.0",
+    "catalog-schema": "0.1.0",
     "moment": "2.29.1",
     "react": "^16.12.0",
     "react-dom": "^16.12.0",
     "react-github-corner": "^2.3.0",
     "react-scripts": "3.3.0",
-    "semantic-ui-react": "2.0.2",
     "semantic-ui-css": "2.4.1",
-    "typescript": "~3.7.2",
-    "catalog-schema": "0.1.0"
+    "semantic-ui-react": "2.0.2",
+    "typescript": "~3.7.2"
   },
   "scripts": {
     "start": "mkdir -p public/index && curl https://awscdk.io/index/packages.json -o public/index/packages.json && react-scripts start",
@@ -46,5 +46,11 @@
     "collectCoverageFrom": [
       "src/{**/,}{!(index),}.tsx"
     ]
+  },
+  "devDependencies": {
+    "@babel/helper-builder-react-jsx": "^7.12.13",
+    "@babel/helper-call-delegate": "^7.12.13",
+    "@babel/helper-define-map": "^7.13.12",
+    "@babel/helper-regex": "^7.10.5"
   }
 }

@@ -24,7 +24,7 @@
     "eslint-import-resolver-typescript": "^2.3.0",
     "eslint-plugin-import": "^2.22.1",
     "json-schema": "^0.3.0",
-    "projen": "^0.15.0",
+    "projen": "^0.17.84",
     "standard-version": "^9.0.0",
     "typescript": "^3.9.5"
   },

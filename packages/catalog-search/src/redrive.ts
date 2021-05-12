@@ -1,5 +1,5 @@
 import { Construct } from 'constructs';
-import * as kplus from 'cdk8s-plus';
+import * as kplus from 'cdk8s-plus-17';
 
 /**
  * Enqueues all module notifications (package + version) to the search SQS queue
